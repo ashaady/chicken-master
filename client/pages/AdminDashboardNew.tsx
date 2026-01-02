@@ -58,8 +58,6 @@ interface Order {
   total: number;
   order_type: "livraison" | "emporter";
   status:
-    | "pending"
-    | "confirmed"
     | "preparing"
     | "ready"
     | "out_for_delivery"
