@@ -170,7 +170,7 @@ export default function CartDrawer({
                 </div>
 
                 <Button
-                  onClick={handleCheckout}
+                  onClick={() => setShowDeliveryModal(true)}
                   disabled={isProcessing || items.length === 0}
                   className="w-full bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed h-12 font-semibold text-base flex items-center justify-center gap-2"
                 >
