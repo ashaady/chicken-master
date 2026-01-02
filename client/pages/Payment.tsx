@@ -24,6 +24,8 @@ interface Order {
   total: number;
   order_type: "livraison" | "emporter";
   delivery_address?: string;
+  delivery_zone?: string;
+  landmark?: string;
 }
 
 interface Payment {
