@@ -137,6 +137,44 @@ export default function CartDrawer({
           </div>
         ) : (
           <>
+            {/* Summary & Validate Button - Moved to top */}
+            <div className="border-b border-border px-6 py-4 space-y-3">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-muted-foreground">Sous-total</span>
+                  <span className="font-semibold text-foreground">
+                    {total.toLocaleString()} F
+                  </span>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-border">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-lg font-bold text-foreground">
+                    Total
+                  </span>
+                  <span className="text-2xl font-bold text-primary">
+                    {total.toLocaleString()} F
+                  </span>
+                </div>
+
+                <Button
+                  onClick={handleCheckout}
+                  disabled={isProcessing || items.length === 0}
+                  className="w-full bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed h-12 font-semibold text-base flex items-center justify-center gap-2"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      Traitement...
+                    </>
+                  ) : (
+                    "Valider la commande"
+                  )}
+                </Button>
+              </div>
+            </div>
+
             {/* Items List */}
             <div className="flex-1 overflow-y-auto px-6 py-4">
               <AnimatePresence mode="popLayout">
@@ -207,44 +245,6 @@ export default function CartDrawer({
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </div>
-
-            {/* Footer */}
-            <div className="border-t border-border px-6 py-4 space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-muted-foreground">Sous-total</span>
-                  <span className="font-semibold text-foreground">
-                    {total.toLocaleString()} F
-                  </span>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-border">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-lg font-bold text-foreground">
-                    Total
-                  </span>
-                  <span className="text-2xl font-bold text-primary">
-                    {total.toLocaleString()} F
-                  </span>
-                </div>
-
-                <Button
-                  onClick={handleCheckout}
-                  disabled={isProcessing || items.length === 0}
-                  className="w-full bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed h-12 font-semibold text-base flex items-center justify-center gap-2"
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader className="w-4 h-4 animate-spin" />
-                      Traitement...
-                    </>
-                  ) : (
-                    "Valider la commande"
-                  )}
-                </Button>
-              </div>
             </div>
           </>
         )}
