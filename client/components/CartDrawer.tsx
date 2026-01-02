@@ -318,7 +318,7 @@ export default function CartDrawer({
                 <button
                   onClick={() => {
                     setSelectedDeliveryType("emporter");
-                    handleCheckout("emporter");
+                    handleCheckout("emporter", undefined);
                   }}
                   disabled={isProcessing}
                   className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-chicken-green hover:bg-chicken-green/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
