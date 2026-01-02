@@ -12,11 +12,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2, Plus, Minus, Loader, Truck, Package } from "lucide-react";
+import { Trash2, Plus, Minus, Loader, Truck, Package, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { orders, payments } from "@/lib/api";
+import { DAKAR_DELIVERY_ZONES } from "@/lib/dakar-zones";
 
 interface CartItem {
   id: string;
