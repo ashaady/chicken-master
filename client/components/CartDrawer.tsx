@@ -59,6 +59,7 @@ export default function CartDrawer({
 
   const handleCheckout = async (deliveryType: "livraison" | "emporter") => {
     setIsProcessing(true);
+    setShowDeliveryModal(false);
 
     try {
       // Prepare order payload
@@ -73,7 +74,7 @@ export default function CartDrawer({
           selected_drink: item.selected_drink,
         })),
         total,
-        order_type: "livraison" as const,
+        order_type: deliveryType,
         status: "pending",
       };
 
