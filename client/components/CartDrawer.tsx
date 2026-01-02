@@ -265,7 +265,18 @@ export default function CartDrawer({
       </SheetContent>
 
       {/* Delivery Type Modal */}
-      <Dialog open={showDeliveryModal} onOpenChange={setShowDeliveryModal}>
+      <Dialog
+        open={showDeliveryModal}
+        onOpenChange={(open) => {
+          setShowDeliveryModal(open);
+          if (!open) {
+            // Reset when modal closes
+            setDeliveryStep("type");
+            setSelectedDeliveryType(null);
+            setSelectedZone("");
+          }
+        }}
+      >
         <DialogContent className="w-full max-w-sm">
           {/* Step 1: Delivery Type */}
           {deliveryStep === "type" && (
