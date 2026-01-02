@@ -295,7 +295,9 @@ export default function PaymentPage() {
               {(order as any).landmark && (
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Point de repère</span>
-                  <span className="font-semibold">{(order as any).landmark}</span>
+                  <span className="font-semibold">
+                    {(order as any).landmark}
+                  </span>
                 </div>
               )}
             </div>
@@ -503,7 +505,12 @@ export default function PaymentPage() {
             ) : (
               <>
                 <Lock className="w-5 h-5" />
-                Valider le paiement - {calculateTotal(order.items, order.order_type).toLocaleString()} F
+                Valider le paiement -{" "}
+                {calculateTotal(
+                  order.items,
+                  order.order_type,
+                ).toLocaleString()}{" "}
+                F
               </>
             )}
           </Button>

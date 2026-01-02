@@ -12,7 +12,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2, Plus, Minus, Loader, Truck, Package, ChevronLeft } from "lucide-react";
+import {
+  Trash2,
+  Plus,
+  Minus,
+  Loader,
+  Truck,
+  Package,
+  ChevronLeft,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -382,7 +390,9 @@ export default function CartDrawer({
                 <Button
                   onClick={() => {
                     if (!selectedZone) {
-                      toast.error("Veuillez sélectionner une zone de livraison");
+                      toast.error(
+                        "Veuillez sélectionner une zone de livraison",
+                      );
                       return;
                     }
                     handleCheckout("livraison", selectedZone);

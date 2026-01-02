@@ -92,7 +92,18 @@ export default function CartPage({
   const handlePaymentSelect = async (method: "wave" | "orange-money") => {
     console.log("handlePaymentSelect called with method:", method);
     console.log("Current items:", items);
-    console.log("Cart state - name:", name, "phone:", phone, "deliveryZone:", deliveryZone, "landmark:", landmark, "orderType:", orderType);
+    console.log(
+      "Cart state - name:",
+      name,
+      "phone:",
+      phone,
+      "deliveryZone:",
+      deliveryZone,
+      "landmark:",
+      landmark,
+      "orderType:",
+      orderType,
+    );
 
     if (!validateForm()) {
       return;
@@ -198,7 +209,12 @@ export default function CartPage({
 
       console.log("✅ Payment created successfully:", paymentData);
       const paymentId = (paymentData as any).id;
-      console.log("Payment ID extracted:", paymentId, "Type:", typeof paymentId);
+      console.log(
+        "Payment ID extracted:",
+        paymentId,
+        "Type:",
+        typeof paymentId,
+      );
 
       if (!paymentId) {
         console.error("❌ Payment ID is missing! Checking structure:", {
@@ -217,14 +233,21 @@ export default function CartPage({
       // Store backup copy in localStorage for demo purposes
       try {
         localStorage.setItem(`order-${orderId}`, JSON.stringify(orderData));
-        localStorage.setItem(`payment-${paymentId}`, JSON.stringify(paymentData));
+        localStorage.setItem(
+          `payment-${paymentId}`,
+          JSON.stringify(paymentData),
+        );
         console.log("✅ Stored in localStorage");
       } catch (e) {
         console.warn("⚠️ localStorage failed:", e);
       }
 
       const paymentUrl = `/payment?order_id=${orderId}&payment_id=${paymentId}`;
-      console.log("=== Ready to navigate ===", { orderId, paymentId, paymentUrl });
+      console.log("=== Ready to navigate ===", {
+        orderId,
+        paymentId,
+        paymentUrl,
+      });
 
       toast.success("Redirection vers le paiement...");
 
@@ -569,7 +592,8 @@ export default function CartPage({
                             className="mt-1.5"
                           />
                           <p className="text-xs text-muted-foreground mt-1">
-                            Décrivez un point de repère pour faciliter la livraison
+                            Décrivez un point de repère pour faciliter la
+                            livraison
                           </p>
                         </div>
                       </div>
@@ -577,7 +601,6 @@ export default function CartPage({
                   </motion.div>
                 </CardContent>
               </Card>
-
             </div>
           </div>
         </div>

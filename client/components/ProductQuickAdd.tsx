@@ -69,7 +69,9 @@ export default function ProductQuickAdd({
             <div className="sticky top-0 bg-gradient-to-r from-primary to-red-700 text-white p-6 flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold">{product.name}</h2>
-                <p className="text-sm text-white/90">{product.price.toLocaleString()} F</p>
+                <p className="text-sm text-white/90">
+                  {product.price.toLocaleString()} F
+                </p>
               </div>
               <button
                 onClick={onClose}
