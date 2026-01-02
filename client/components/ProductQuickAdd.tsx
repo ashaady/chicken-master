@@ -21,10 +21,10 @@ interface ProductQuickAddProps {
   product: Product | null;
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (deliveryType: "livraison" | "emporter", drinkName?: string, zone?: string) => void;
+  onAdd: (drinkName?: string) => void;
 }
 
-type Step = "delivery-type" | "delivery-zone" | "drink-selection";
+type Step = "drink-selection" | "confirm";
 
 export default function ProductQuickAdd({
   product,
@@ -32,60 +32,24 @@ export default function ProductQuickAdd({
   onClose,
   onAdd,
 }: ProductQuickAddProps) {
-  const [currentStep, setCurrentStep] = useState<Step>("delivery-type");
-  const [selectedDeliveryType, setSelectedDeliveryType] = useState<"livraison" | "emporter" | null>(null);
-  const [selectedZone, setSelectedZone] = useState("");
+  const [currentStep, setCurrentStep] = useState<Step>("drink-selection");
   const [selectedDrink, setSelectedDrink] = useState("");
 
   const isMenu = product?.category === "menus";
 
-  const handleDeliveryTypeSelect = (type: "livraison" | "emporter") => {
-    setSelectedDeliveryType(type);
-
-    if (type === "emporter") {
-      // À emporter - directly add or show drink selection if menu
-      if (isMenu) {
-        setCurrentStep("drink-selection");
-      } else {
-        handleAddProduct(type);
-      }
-    } else {
-      // Livraison - show zone selection
-      setCurrentStep("delivery-zone");
-    }
-  };
-
-  const handleZoneSelect = () => {
-    if (!selectedZone) {
-      toast.error("Veuillez sélectionner une zone de livraison");
-      return;
-    }
-
-    if (isMenu) {
-      setCurrentStep("drink-selection");
-    } else {
-      handleAddProduct("livraison");
-    }
-  };
-
   const handleDrinkSelect = (drinkId: string) => {
     const drinkName = DRINKS_LIST.find((d) => d.id === drinkId)?.name || "";
-    handleAddProduct(selectedDeliveryType || "emporter", drinkName);
+    handleAddProduct(drinkName);
   };
 
-  const handleAddProduct = (
-    deliveryType: "livraison" | "emporter",
-    drinkName?: string,
-  ) => {
-    onAdd(deliveryType, drinkName, selectedDeliveryType === "livraison" ? selectedZone : undefined);
+  const handleAddProduct = (drinkName?: string) => {
+    onAdd(drinkName);
     resetForm();
     onClose();
   };
 
   const resetForm = () => {
-    setCurrentStep("delivery-type");
-    setSelectedDeliveryType(null);
-    setSelectedZone("");
+    setCurrentStep("drink-selection");
     setSelectedDrink("");
   };
 
