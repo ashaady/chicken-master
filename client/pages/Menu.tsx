@@ -240,11 +240,7 @@ export default function Menu() {
     }
   };
 
-  const handleQuickAddProduct = (
-    deliveryType: "livraison" | "emporter",
-    drinkName?: string,
-    zone?: string,
-  ) => {
+  const handleQuickAddProduct = (drinkName?: string) => {
     if (selectedProduct) {
       const newItem: CartItem = {
         id: `${selectedProduct.id}-${Date.now()}`,
@@ -254,8 +250,6 @@ export default function Menu() {
         quantity: 1,
         image_url: selectedProduct.image_url,
         selected_drink: drinkName,
-        delivery_type: deliveryType,
-        delivery_zone: zone,
       };
 
       setCartItems((prev) => [...prev, newItem]);

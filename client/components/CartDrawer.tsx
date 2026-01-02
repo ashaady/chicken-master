@@ -5,12 +5,27 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2, Plus, Minus, Loader } from "lucide-react";
+import {
+  Trash2,
+  Plus,
+  Minus,
+  Loader,
+  Truck,
+  Package,
+  ChevronLeft,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { orders, payments } from "@/lib/api";
+import { DAKAR_DELIVERY_ZONES } from "@/lib/dakar-zones";
 
 interface CartItem {
   id: string;
@@ -41,14 +56,24 @@ export default function CartDrawer({
 }: CartDrawerProps) {
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showDeliveryModal, setShowDeliveryModal] = useState(false);
+  const [deliveryStep, setDeliveryStep] = useState<"type" | "zone">("type");
+  const [selectedDeliveryType, setSelectedDeliveryType] = useState<
+    "livraison" | "emporter" | null
+  >(null);
+  const [selectedZone, setSelectedZone] = useState("");
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (
+    deliveryType: "livraison" | "emporter",
+    zone?: string,
+  ) => {
     setIsProcessing(true);
+    setShowDeliveryModal(false);
 
     try {
       // Prepare order payload
@@ -56,6 +81,7 @@ export default function CartDrawer({
         order_number: `CM${Math.random().toString().slice(2, 10)}`,
         customer_name: "Client",
         customer_phone: "",
+        delivery_zone: deliveryType === "livraison" ? zone : undefined,
         items: items.map((item) => ({
           product_name: item.product_name,
           quantity: item.quantity,
@@ -63,8 +89,8 @@ export default function CartDrawer({
           selected_drink: item.selected_drink,
         })),
         total,
-        order_type: "livraison" as const,
-        status: "pending",
+        order_type: deliveryType,
+        status: "preparing",
       };
 
       // Create order via API
@@ -137,6 +163,44 @@ export default function CartDrawer({
           </div>
         ) : (
           <>
+            {/* Summary & Validate Button - Moved to top */}
+            <div className="border-b border-border px-6 py-4 space-y-3">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-muted-foreground">Sous-total</span>
+                  <span className="font-semibold text-foreground">
+                    {total.toLocaleString()} F
+                  </span>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-border">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-lg font-bold text-foreground">
+                    Total
+                  </span>
+                  <span className="text-2xl font-bold text-primary">
+                    {total.toLocaleString()} F
+                  </span>
+                </div>
+
+                <Button
+                  onClick={() => setShowDeliveryModal(true)}
+                  disabled={isProcessing || items.length === 0}
+                  className="w-full bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed h-12 font-semibold text-base flex items-center justify-center gap-2"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      Traitement...
+                    </>
+                  ) : (
+                    "Valider la commande"
+                  )}
+                </Button>
+              </div>
+            </div>
+
             {/* Items List */}
             <div className="flex-1 overflow-y-auto px-6 py-4">
               <AnimatePresence mode="popLayout">
@@ -208,47 +272,141 @@ export default function CartDrawer({
                 ))}
               </AnimatePresence>
             </div>
-
-            {/* Footer */}
-            <div className="border-t border-border px-6 py-4 space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-muted-foreground">Sous-total</span>
-                  <span className="font-semibold text-foreground">
-                    {total.toLocaleString()} F
-                  </span>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-border">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-lg font-bold text-foreground">
-                    Total
-                  </span>
-                  <span className="text-2xl font-bold text-primary">
-                    {total.toLocaleString()} F
-                  </span>
-                </div>
-
-                <Button
-                  onClick={handleCheckout}
-                  disabled={isProcessing || items.length === 0}
-                  className="w-full bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed h-12 font-semibold text-base flex items-center justify-center gap-2"
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader className="w-4 h-4 animate-spin" />
-                      Traitement...
-                    </>
-                  ) : (
-                    "Valider la commande"
-                  )}
-                </Button>
-              </div>
-            </div>
           </>
         )}
       </SheetContent>
+
+      {/* Delivery Type Modal */}
+      <Dialog
+        open={showDeliveryModal}
+        onOpenChange={(open) => {
+          setShowDeliveryModal(open);
+          if (!open) {
+            // Reset when modal closes
+            setDeliveryStep("type");
+            setSelectedDeliveryType(null);
+            setSelectedZone("");
+          }
+        }}
+      >
+        <DialogContent className="w-full max-w-sm">
+          {/* Step 1: Delivery Type */}
+          {deliveryStep === "type" && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-xl text-foreground">
+                  Comment souhaitez-vous recevoir votre commande?
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="space-y-3 pt-4">
+                {/* Livraison Option */}
+                <button
+                  onClick={() => {
+                    setSelectedDeliveryType("livraison");
+                    setDeliveryStep("zone");
+                  }}
+                  disabled={isProcessing}
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                      <Truck className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">Livraison</p>
+                      <p className="text-sm text-muted-foreground">
+                        Nous livrons à votre adresse
+                      </p>
+                    </div>
+                  </div>
+                </button>
+
+                {/* À emporter Option */}
+                <button
+                  onClick={() => {
+                    setSelectedDeliveryType("emporter");
+                    handleCheckout("emporter", undefined);
+                  }}
+                  disabled={isProcessing}
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-chicken-green hover:bg-chicken-green/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                      <Package className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">À emporter</p>
+                      <p className="text-sm text-muted-foreground">
+                        Retirer sur place
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Step 2: Delivery Zone */}
+          {deliveryStep === "zone" && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              <DialogHeader>
+                <DialogTitle className="text-xl text-foreground">
+                  Sélectionner votre zone de livraison
+                </DialogTitle>
+              </DialogHeader>
+
+              <select
+                value={selectedZone}
+                onChange={(e) => setSelectedZone(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-primary bg-white text-foreground"
+              >
+                <option value="">Choisir une zone...</option>
+                {DAKAR_DELIVERY_ZONES.map((zone) => (
+                  <option key={zone} value={zone}>
+                    {zone}
+                  </option>
+                ))}
+              </select>
+
+              <div className="flex gap-3 pt-2">
+                <Button
+                  onClick={() => {
+                    setDeliveryStep("type");
+                    setSelectedDeliveryType(null);
+                    setSelectedZone("");
+                  }}
+                  variant="outline"
+                  className="flex-1 gap-2"
+                  disabled={isProcessing}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Retour
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (!selectedZone) {
+                      toast.error(
+                        "Veuillez sélectionner une zone de livraison",
+                      );
+                      return;
+                    }
+                    handleCheckout("livraison", selectedZone);
+                  }}
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  disabled={!selectedZone || isProcessing}
+                >
+                  Continuer
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Sheet>
   );
 }

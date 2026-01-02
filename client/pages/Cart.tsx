@@ -92,7 +92,18 @@ export default function CartPage({
   const handlePaymentSelect = async (method: "wave" | "orange-money") => {
     console.log("handlePaymentSelect called with method:", method);
     console.log("Current items:", items);
-    console.log("Cart state - name:", name, "phone:", phone, "deliveryZone:", deliveryZone, "landmark:", landmark, "orderType:", orderType);
+    console.log(
+      "Cart state - name:",
+      name,
+      "phone:",
+      phone,
+      "deliveryZone:",
+      deliveryZone,
+      "landmark:",
+      landmark,
+      "orderType:",
+      orderType,
+    );
 
     if (!validateForm()) {
       return;
@@ -119,6 +130,7 @@ export default function CartPage({
         })),
         total,
         order_type: orderType,
+        status: "preparing",
       };
 
       console.log("=== Creating Order ===");
@@ -197,7 +209,12 @@ export default function CartPage({
 
       console.log("✅ Payment created successfully:", paymentData);
       const paymentId = (paymentData as any).id;
-      console.log("Payment ID extracted:", paymentId, "Type:", typeof paymentId);
+      console.log(
+        "Payment ID extracted:",
+        paymentId,
+        "Type:",
+        typeof paymentId,
+      );
 
       if (!paymentId) {
         console.error("❌ Payment ID is missing! Checking structure:", {
@@ -216,14 +233,21 @@ export default function CartPage({
       // Store backup copy in localStorage for demo purposes
       try {
         localStorage.setItem(`order-${orderId}`, JSON.stringify(orderData));
-        localStorage.setItem(`payment-${paymentId}`, JSON.stringify(paymentData));
+        localStorage.setItem(
+          `payment-${paymentId}`,
+          JSON.stringify(paymentData),
+        );
         console.log("✅ Stored in localStorage");
       } catch (e) {
         console.warn("⚠️ localStorage failed:", e);
       }
 
       const paymentUrl = `/payment?order_id=${orderId}&payment_id=${paymentId}`;
-      console.log("=== Ready to navigate ===", { orderId, paymentId, paymentUrl });
+      console.log("=== Ready to navigate ===", {
+        orderId,
+        paymentId,
+        paymentUrl,
+      });
 
       toast.success("Redirection vers le paiement...");
 
@@ -385,6 +409,44 @@ export default function CartPage({
 
             {/* Right Column: Order Form */}
             <div className="space-y-4">
+              {/* Summary - Moved to top */}
+              <Card>
+                <CardContent className="pt-6 space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Sous-total</span>
+                    <span className="font-semibold">
+                      {subtotal.toLocaleString()} F
+                    </span>
+                  </div>
+                  {orderType === "livraison" && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Livraison</span>
+                      <span className="font-semibold">
+                        {deliveryFee.toLocaleString()} F
+                      </span>
+                    </div>
+                  )}
+                  <div className="pt-3 border-t border-border flex items-center justify-between">
+                    <span className="font-bold text-lg">Total</span>
+                    <span className="text-2xl font-bold text-primary">
+                      {total.toLocaleString()} F
+                    </span>
+                  </div>
+
+                  <Button
+                    onClick={() => {
+                      if (validateForm()) {
+                        setPaymentOpen(true);
+                      }
+                    }}
+                    disabled={isProcessing}
+                    className="w-full h-12 bg-primary text-white hover:bg-primary/90 font-bold text-base mt-4"
+                  >
+                    {isProcessing ? "Traitement..." : "Procéder au paiement"}
+                  </Button>
+                </CardContent>
+              </Card>
+
               {/* Order Type */}
               <Card>
                 <CardHeader>
@@ -530,50 +592,13 @@ export default function CartPage({
                             className="mt-1.5"
                           />
                           <p className="text-xs text-muted-foreground mt-1">
-                            Décrivez un point de repère pour faciliter la livraison
+                            Décrivez un point de repère pour faciliter la
+                            livraison
                           </p>
                         </div>
                       </div>
                     )}
                   </motion.div>
-                </CardContent>
-              </Card>
-
-              {/* Summary */}
-              <Card>
-                <CardContent className="pt-6 space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Sous-total</span>
-                    <span className="font-semibold">
-                      {subtotal.toLocaleString()} F
-                    </span>
-                  </div>
-                  {orderType === "livraison" && (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Livraison</span>
-                      <span className="font-semibold">
-                        {deliveryFee.toLocaleString()} F
-                      </span>
-                    </div>
-                  )}
-                  <div className="pt-3 border-t border-border flex items-center justify-between">
-                    <span className="font-bold text-lg">Total</span>
-                    <span className="text-2xl font-bold text-primary">
-                      {total.toLocaleString()} F
-                    </span>
-                  </div>
-
-                  <Button
-                    onClick={() => {
-                      if (validateForm()) {
-                        setPaymentOpen(true);
-                      }
-                    }}
-                    disabled={isProcessing}
-                    className="w-full h-12 bg-primary text-white hover:bg-primary/90 font-bold text-base mt-4"
-                  >
-                    {isProcessing ? "Traitement..." : "Procéder au paiement"}
-                  </Button>
                 </CardContent>
               </Card>
             </div>
