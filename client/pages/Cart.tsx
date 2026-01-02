@@ -119,6 +119,7 @@ export default function CartPage({
         })),
         total,
         order_type: orderType,
+        status: "preparing",
       };
 
       console.log("=== Creating Order ===");
