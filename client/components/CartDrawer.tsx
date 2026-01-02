@@ -385,7 +385,7 @@ export default function CartDrawer({
                       toast.error("Veuillez sélectionner une zone de livraison");
                       return;
                     }
-                    handleCheckout("livraison");
+                    handleCheckout("livraison", selectedZone);
                   }}
                   className="flex-1 bg-primary hover:bg-primary/90"
                   disabled={!selectedZone || isProcessing}
