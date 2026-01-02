@@ -100,5 +100,25 @@
     "customer_name": "",
     "customer_phone": "",
     "created_at": "2026-01-01T19:49:47.738Z"
+  },
+  {
+    "id": "payment-1767324182123",
+    "order_id": "order-1767324182009",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-02T03:23:02.123Z"
+  },
+  {
+    "id": "payment-1767324182123",
+    "order_id": "order-1767324182009",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-02T03:23:02.123Z"
   }
 ]
