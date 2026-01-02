@@ -577,43 +577,6 @@ export default function CartPage({
                 </CardContent>
               </Card>
 
-              {/* Summary */}
-              <Card>
-                <CardContent className="pt-6 space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Sous-total</span>
-                    <span className="font-semibold">
-                      {subtotal.toLocaleString()} F
-                    </span>
-                  </div>
-                  {orderType === "livraison" && (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Livraison</span>
-                      <span className="font-semibold">
-                        {deliveryFee.toLocaleString()} F
-                      </span>
-                    </div>
-                  )}
-                  <div className="pt-3 border-t border-border flex items-center justify-between">
-                    <span className="font-bold text-lg">Total</span>
-                    <span className="text-2xl font-bold text-primary">
-                      {total.toLocaleString()} F
-                    </span>
-                  </div>
-
-                  <Button
-                    onClick={() => {
-                      if (validateForm()) {
-                        setPaymentOpen(true);
-                      }
-                    }}
-                    disabled={isProcessing}
-                    className="w-full h-12 bg-primary text-white hover:bg-primary/90 font-bold text-base mt-4"
-                  >
-                    {isProcessing ? "Traitement..." : "Procéder au paiement"}
-                  </Button>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
