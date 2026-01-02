@@ -267,57 +267,119 @@ export default function CartDrawer({
       {/* Delivery Type Modal */}
       <Dialog open={showDeliveryModal} onOpenChange={setShowDeliveryModal}>
         <DialogContent className="w-full max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="text-xl text-foreground">
-              Comment souhaitez-vous recevoir votre commande?
-            </DialogTitle>
-          </DialogHeader>
+          {/* Step 1: Delivery Type */}
+          {deliveryStep === "type" && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-xl text-foreground">
+                  Comment souhaitez-vous recevoir votre commande?
+                </DialogTitle>
+              </DialogHeader>
 
-          <div className="space-y-3 pt-4">
-            {/* Livraison Option */}
-            <button
-              onClick={() => {
-                setSelectedDeliveryType("livraison");
-                handleCheckout("livraison");
-              }}
-              disabled={isProcessing}
-              className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                  <Truck className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-bold text-foreground">Livraison</p>
-                  <p className="text-sm text-muted-foreground">
-                    Nous livrons à votre adresse
-                  </p>
-                </div>
-              </div>
-            </button>
+              <div className="space-y-3 pt-4">
+                {/* Livraison Option */}
+                <button
+                  onClick={() => {
+                    setSelectedDeliveryType("livraison");
+                    setDeliveryStep("zone");
+                  }}
+                  disabled={isProcessing}
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                      <Truck className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">Livraison</p>
+                      <p className="text-sm text-muted-foreground">
+                        Nous livrons à votre adresse
+                      </p>
+                    </div>
+                  </div>
+                </button>
 
-            {/* À emporter Option */}
-            <button
-              onClick={() => {
-                setSelectedDeliveryType("emporter");
-                handleCheckout("emporter");
-              }}
-              disabled={isProcessing}
-              className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-chicken-green hover:bg-chicken-green/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
-                  <Package className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-bold text-foreground">À emporter</p>
-                  <p className="text-sm text-muted-foreground">
-                    Retirer sur place
-                  </p>
-                </div>
+                {/* À emporter Option */}
+                <button
+                  onClick={() => {
+                    setSelectedDeliveryType("emporter");
+                    handleCheckout("emporter");
+                  }}
+                  disabled={isProcessing}
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-chicken-green hover:bg-chicken-green/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                      <Package className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">À emporter</p>
+                      <p className="text-sm text-muted-foreground">
+                        Retirer sur place
+                      </p>
+                    </div>
+                  </div>
+                </button>
               </div>
-            </button>
-          </div>
+            </>
+          )}
+
+          {/* Step 2: Delivery Zone */}
+          {deliveryStep === "zone" && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              <DialogHeader>
+                <DialogTitle className="text-xl text-foreground">
+                  Sélectionner votre zone de livraison
+                </DialogTitle>
+              </DialogHeader>
+
+              <select
+                value={selectedZone}
+                onChange={(e) => setSelectedZone(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-primary bg-white text-foreground"
+              >
+                <option value="">Choisir une zone...</option>
+                {DAKAR_DELIVERY_ZONES.map((zone) => (
+                  <option key={zone} value={zone}>
+                    {zone}
+                  </option>
+                ))}
+              </select>
+
+              <div className="flex gap-3 pt-2">
+                <Button
+                  onClick={() => {
+                    setDeliveryStep("type");
+                    setSelectedDeliveryType(null);
+                    setSelectedZone("");
+                  }}
+                  variant="outline"
+                  className="flex-1 gap-2"
+                  disabled={isProcessing}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Retour
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (!selectedZone) {
+                      toast.error("Veuillez sélectionner une zone de livraison");
+                      return;
+                    }
+                    handleCheckout("livraison");
+                  }}
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  disabled={!selectedZone || isProcessing}
+                >
+                  Continuer
+                </Button>
+              </div>
+            </motion.div>
+          )}
         </DialogContent>
       </Dialog>
     </Sheet>
