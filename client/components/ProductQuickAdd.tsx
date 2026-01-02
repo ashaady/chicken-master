@@ -90,101 +90,8 @@ export default function ProductQuickAdd({
 
             {/* Content */}
             <div className="p-6 space-y-6">
-              {/* Step 1: Delivery Type Selection */}
-              {currentStep === "delivery-type" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="space-y-4"
-                >
-                  <h3 className="font-bold text-lg text-foreground">
-                    Comment souhaitez-vous recevoir votre commande?
-                  </h3>
-
-                  <button
-                    onClick={() => handleDeliveryTypeSelect("livraison")}
-                    className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                        <Truck className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-foreground">Livraison</p>
-                        <p className="text-sm text-muted-foreground">
-                          Nous livrons à votre adresse
-                        </p>
-                      </div>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => handleDeliveryTypeSelect("emporter")}
-                    className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-chicken-green hover:bg-chicken-green/5 transition-all text-left group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
-                        <Package className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-foreground">À emporter</p>
-                        <p className="text-sm text-muted-foreground">
-                          Retirer sur place
-                        </p>
-                      </div>
-                    </div>
-                  </button>
-                </motion.div>
-              )}
-
-              {/* Step 2: Delivery Zone Selection */}
-              {currentStep === "delivery-zone" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="space-y-4"
-                >
-                  <h3 className="font-bold text-lg text-foreground">
-                    Sélectionner votre zone de livraison
-                  </h3>
-
-                  <select
-                    value={selectedZone}
-                    onChange={(e) => setSelectedZone(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-primary bg-white"
-                  >
-                    <option value="">Choisir une zone...</option>
-                    {DAKAR_DELIVERY_ZONES.map((zone) => (
-                      <option key={zone} value={zone}>
-                        {zone}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="flex gap-3 pt-4">
-                    <Button
-                      onClick={() => {
-                        setCurrentStep("delivery-type");
-                        setSelectedDeliveryType(null);
-                      }}
-                      variant="outline"
-                      className="flex-1"
-                    >
-                      Retour
-                    </Button>
-                    <Button
-                      onClick={handleZoneSelect}
-                      className="flex-1 bg-primary hover:bg-primary/90"
-                      disabled={!selectedZone}
-                    >
-                      Confirmer
-                    </Button>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Step 3: Drink Selection (for menus) */}
-              {currentStep === "drink-selection" && isMenu && (
+              {/* Drink Selection (for menus only) */}
+              {isMenu ? (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -210,17 +117,26 @@ export default function ProductQuickAdd({
                   </div>
 
                   <Button
-                    onClick={() => {
-                      if (selectedDeliveryType === "livraison") {
-                        setCurrentStep("delivery-zone");
-                      } else {
-                        setCurrentStep("delivery-type");
-                      }
-                    }}
-                    variant="outline"
-                    className="w-full"
+                    onClick={() => handleAddProduct()}
+                    className="w-full bg-primary hover:bg-primary/90 h-12 font-semibold"
                   >
-                    Retour
+                    Ajouter au panier
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-4"
+                >
+                  <p className="text-foreground text-center">
+                    {product.description}
+                  </p>
+                  <Button
+                    onClick={() => handleAddProduct()}
+                    className="w-full bg-primary hover:bg-primary/90 h-12 font-semibold"
+                  >
+                    Ajouter au panier
                   </Button>
                 </motion.div>
               )}
