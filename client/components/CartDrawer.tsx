@@ -60,7 +60,10 @@ export default function CartDrawer({
   );
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const handleCheckout = async (deliveryType: "livraison" | "emporter") => {
+  const handleCheckout = async (
+    deliveryType: "livraison" | "emporter",
+    zone?: string,
+  ) => {
     setIsProcessing(true);
     setShowDeliveryModal(false);
 
@@ -70,6 +73,7 @@ export default function CartDrawer({
         order_number: `CM${Math.random().toString().slice(2, 10)}`,
         customer_name: "Client",
         customer_phone: "",
+        delivery_zone: deliveryType === "livraison" ? zone : undefined,
         items: items.map((item) => ({
           product_name: item.product_name,
           quantity: item.quantity,
