@@ -260,6 +260,63 @@ export default function CartDrawer({
           </>
         )}
       </SheetContent>
+
+      {/* Delivery Type Modal */}
+      <Dialog open={showDeliveryModal} onOpenChange={setShowDeliveryModal}>
+        <DialogContent className="w-full max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-xl text-foreground">
+              Comment souhaitez-vous recevoir votre commande?
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-3 pt-4">
+            {/* Livraison Option */}
+            <button
+              onClick={() => {
+                setSelectedDeliveryType("livraison");
+                handleCheckout("livraison");
+              }}
+              disabled={isProcessing}
+              className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                  <Truck className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <p className="font-bold text-foreground">Livraison</p>
+                  <p className="text-sm text-muted-foreground">
+                    Nous livrons à votre adresse
+                  </p>
+                </div>
+              </div>
+            </button>
+
+            {/* À emporter Option */}
+            <button
+              onClick={() => {
+                setSelectedDeliveryType("emporter");
+                handleCheckout("emporter");
+              }}
+              disabled={isProcessing}
+              className="w-full p-4 border-2 border-gray-200 rounded-xl hover:border-chicken-green hover:bg-chicken-green/5 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                  <Package className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-bold text-foreground">À emporter</p>
+                  <p className="text-sm text-muted-foreground">
+                    Retirer sur place
+                  </p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Sheet>
   );
 }
