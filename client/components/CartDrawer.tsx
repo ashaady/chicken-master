@@ -82,7 +82,7 @@ export default function CartDrawer({
         })),
         total,
         order_type: deliveryType,
-        status: "pending",
+        status: "preparing",
       };
 
       // Create order via API
