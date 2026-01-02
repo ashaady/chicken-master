@@ -1,0 +1,102 @@
+[
+  {
+    "id": "order-1767291573983",
+    "order_number": "CM58620138",
+    "customer_name": "Client",
+    "customer_phone": "",
+    "delivery_address": "",
+    "items": [
+      {
+        "product_name": "Chicken Burger Master",
+        "quantity": 1,
+        "price": 3500
+      }
+    ],
+    "total": 3500,
+    "order_type": "livraison",
+    "status": "delivered",
+    "created_at": "2026-01-01T18:19:33.983Z"
+  },
+  {
+    "id": "order-1767291703910",
+    "order_number": "CM78066093",
+    "customer_name": "Abdallah Sy",
+    "customer_phone": "+221781520461",
+    "delivery_address": "",
+    "items": [
+      {
+        "product_name": "Menu Classique",
+        "quantity": 1,
+        "price": 4500,
+        "selected_drink": "Bouye"
+      }
+    ],
+    "total": 4500,
+    "order_type": "livraison",
+    "status": "delivered",
+    "created_at": "2026-01-01T18:21:43.910Z",
+    "payment_id": "payment-1767291704101"
+  },
+  {
+    "id": "order-1767292461131",
+    "order_number": "CM79175244",
+    "customer_name": "Client",
+    "customer_phone": "",
+    "delivery_address": "",
+    "delivery_zone": "",
+    "landmark": "",
+    "items": [
+      {
+        "product_name": "Menu Classique",
+        "quantity": 1,
+        "price": 4500,
+        "selected_drink": "Bouye"
+      }
+    ],
+    "total": 4500,
+    "order_type": "livraison",
+    "status": "pending",
+    "created_at": "2026-01-01T18:34:21.131Z"
+  },
+  {
+    "id": "order-1767292505034",
+    "order_number": "CM66472853",
+    "customer_name": "Client",
+    "customer_phone": "",
+    "delivery_address": "",
+    "delivery_zone": "",
+    "landmark": "",
+    "items": [
+      {
+        "product_name": "Spicy Chicken",
+        "quantity": 1,
+        "price": 3800
+      }
+    ],
+    "total": 3800,
+    "order_type": "livraison",
+    "status": "pending",
+    "created_at": "2026-01-01T18:35:05.034Z"
+  },
+  {
+    "id": "order-1767296987454",
+    "order_number": "CM83802762",
+    "customer_name": "Client",
+    "customer_phone": "",
+    "delivery_address": "",
+    "delivery_zone": "",
+    "landmark": "",
+    "items": [
+      {
+        "product_name": "Menu Classique",
+        "quantity": 1,
+        "price": 4500,
+        "selected_drink": "Bouye"
+      }
+    ],
+    "total": 4500,
+    "order_type": "livraison",
+    "status": "pending",
+    "created_at": "2026-01-01T19:49:47.454Z"
+  }
+]

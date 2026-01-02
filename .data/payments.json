@@ -1,0 +1,104 @@
+[
+  {
+    "id": "payment-1767291574240",
+    "order_id": "order-1767291573983",
+    "amount": 3500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T18:19:34.240Z"
+  },
+  {
+    "id": "payment-1767291574240",
+    "order_id": "order-1767291573983",
+    "amount": 3500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T18:19:34.240Z"
+  },
+  {
+    "id": "payment-1767291704101",
+    "order_id": "order-1767291703910",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "completed",
+    "customer_name": "Abdallah Sy",
+    "customer_phone": "+221781520461",
+    "created_at": "2026-01-01T18:21:44.101Z",
+    "paid_at": "2026-01-01T18:22:58.950Z"
+  },
+  {
+    "id": "payment-1767291704101",
+    "order_id": "order-1767291703910",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "completed",
+    "customer_name": "Abdallah Sy",
+    "customer_phone": "+221781520461",
+    "created_at": "2026-01-01T18:21:44.101Z",
+    "paid_at": "2026-01-01T18:22:58.950Z"
+  },
+  {
+    "id": "payment-1767292461309",
+    "order_id": "order-1767292461131",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T18:34:21.309Z"
+  },
+  {
+    "id": "payment-1767292461309",
+    "order_id": "order-1767292461131",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T18:34:21.309Z"
+  },
+  {
+    "id": "payment-1767292505209",
+    "order_id": "order-1767292505034",
+    "amount": 3800,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T18:35:05.209Z"
+  },
+  {
+    "id": "payment-1767292505209",
+    "order_id": "order-1767292505034",
+    "amount": 3800,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T18:35:05.209Z"
+  },
+  {
+    "id": "payment-1767296987738",
+    "order_id": "order-1767296987454",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T19:49:47.738Z"
+  },
+  {
+    "id": "payment-1767296987738",
+    "order_id": "order-1767296987454",
+    "amount": 4500,
+    "payment_method": "orange-money",
+    "status": "pending",
+    "customer_name": "",
+    "customer_phone": "",
+    "created_at": "2026-01-01T19:49:47.738Z"
+  }
+]
