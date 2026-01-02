@@ -49,9 +49,11 @@ export default function CartDrawer({
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
+  const [deliveryStep, setDeliveryStep] = useState<"type" | "zone">("type");
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<
     "livraison" | "emporter" | null
   >(null);
+  const [selectedZone, setSelectedZone] = useState("");
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
